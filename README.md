@@ -279,13 +279,13 @@ Detaylı doküman: [`docs/08_kvkk_ve_guvenlik.md`](docs/08_kvkk_ve_guvenlik.md)
 
 Bu kütüphane, **[eimza-kep](https://github.com/eimza-kep)** organizasyonunun e-Dönüşüm araçları ve bilgi tabanları ile tam entegre çalışacak şekilde tasarlanmıştır:
 
-- 🏛️ **[eimza-rehberi](https://github.com/eimza-kep/eimza-rehberi)**: Elektronik imza kurulum ve donanım rehberi
-- 📮 **[kep-akademisi](https://github.com/eimza-kep/kep-akademisi)**: Kayıtlı Elektronik Posta (KEP) kullanım ve delil hukuku
-- 🏢 **[mali-muhur-merkezi](https://github.com/eimza-kep/mali-muhur-merkezi)**: Mali mühür sertifikası ve şirket tür değişikliği yönetimi
-- 🧾 **[efatura-atolyesi](https://github.com/eimza-kep/efatura-atolyesi)**: e-Fatura, e-Arşiv ve UBL-TR teknik atölyesi
-- 💼 **[edonusum-kobi](https://github.com/eimza-kep/edonusum-kobi)**: KOBİ'ler için e-Defter ve e-İrsaliye geçiş kılavuzu
-- ⚖️ **[uyap-teknik-destek](https://github.com/eimza-kep/uyap-teknik-destek)**: Avukatlar ve hukuk büroları için UYAP & DYS desteği
-- 🛡️ **[dijital-kimlik-guvenlik](https://github.com/eimza-kep/dijital-kimlik-guvenlik)**: Dijital kimlik doğrulama, Zero Trust ve siber güvenlik
+- 🏛️ **[E-İmza Rehberi](https://eimzabilgi.site)** ([GitHub](https://github.com/eimza-kep/eimza-rehberi)): Elektronik imza kurulum, sürücü ve donanım rehberi
+- 📮 **[KEP Akademisi](https://keprehberi.site)** ([GitHub](https://github.com/eimza-kep/kep-akademisi)): Kayıtlı Elektronik Posta (KEP) kullanım ve delil hukuku
+- 🏢 **[Mali Mühür Merkezi](https://malimuhur.site)** ([GitHub](https://github.com/eimza-kep/mali-muhur-merkezi)): Mali mühür sertifikası ve şirket tür değişikliği yönetimi
+- 🧾 **[E-Fatura Atölyesi](https://efaturabilgi.site)** ([GitHub](https://github.com/eimza-kep/efatura-atolyesi)): e-Fatura, e-Arşiv ve UBL-TR teknik atölyesi
+- 💼 **[KOBİ E-Dönüşüm](https://edonusumkobi.site)** ([GitHub](https://github.com/eimza-kep/edonusum-kobi)): KOBİ'ler için e-Defter ve e-İrsaliye geçiş kılavuzu
+- ⚖️ **[UYAP Teknik Destek](https://uyapteknikdestek.site)** ([GitHub](https://github.com/eimza-kep/uyap-teknik-destek)): Avukatlar ve hukuk büroları için UYAP & DYS desteği
+- 🛡️ **[Dijital Kimlik & Güvenlik](https://kimlikguvenlik.site)** ([GitHub](https://github.com/eimza-kep/dijital-kimlik-guvenlik)): Dijital kimlik doğrulama, Zero Trust ve siber güvenlik
 - 🔍 **[e-imza-validator](https://github.com/eimza-kep/e-imza-validator)**: PAdES, CAdES, XAdES doğrulama kütüphanesi
 - 📑 **[e-fatura-validator](https://github.com/eimza-kep/e-fatura-validator)**: UBL-TR 1.2.1 şema ve schematron doğrulama motoru
 
