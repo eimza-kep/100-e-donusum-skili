@@ -232,6 +232,64 @@ def export_cursor(output_path=".cursorrules"):
     print(f"✅ Cursor rules dosyası oluşturuldu: {output_path}")
 
 
+def export_markdown(output_path="SKILLS_REFERENCE.md"):
+    lines = [
+        "# ⚡ 100 E-Dönüşüm Skili & Hazır Prompt Referansı",
+        "Bu doküman, Türkiye e-Dönüşüm ekosistemindeki tüm yapay zeka becerilerini tek bir referans kılavuzunda toplar.",
+        "",
+        "---",
+        ""
+    ]
+    for cat, skills in SKILLS_BY_CATEGORY.items():
+        lines.append(f"## 📂 {cat} ({len(skills)} Beceri)")
+        lines.append("")
+        for s in skills:
+            lines.append(f"### `{s['id']}` - {s['name']}")
+            lines.append(f"**Açıklama:** {s['description']}  ")
+            lines.append(f"**Önerilen Model:** `{s['recommended_model']}` | **Etiketler:** `{', '.join(s['tags'])}`")
+            lines.append("")
+            lines.append("**Sistem Promptu:**")
+            lines.append("```text")
+            lines.append(s['system_prompt'].strip())
+            lines.append("```")
+            lines.append("")
+            lines.append("**Kullanıcı Şablonu:**")
+            lines.append("```text")
+            lines.append(s['user_prompt_template'].strip())
+            lines.append("```")
+            lines.append("")
+            lines.append("---")
+            lines.append("")
+
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
+    print(f"✅ Markdown referans dosyası oluşturuldu: {output_path}")
+
+
+def export_ollama(output_path="Modelfile", base_model="llama3.1:8b"):
+    modelfile_content = f"""# 100 E-Dönüşüm Skili Ollama Modelfile
+# eimza-kep/100-e-donusum-skili
+FROM {base_model}
+
+PARAMETER temperature 0.2
+PARAMETER top_p 0.9
+PARAMETER stop "<|eot_id|>"
+
+SYSTEM \"\"\"
+Sen Türkiye E-Dönüşüm, Vergi Hukuku (VUK), Ticaret Hukuku (TTK), UYAP Hukuk Otomasyonu, KEP ve Siber Güvenlik konularında uzmanlaşmış yapay zeka asistanısın.
+
+Görevlerin:
+1. 5070 s. E-İmza Kanunu, VUK 509/596, TTK 18/3 ve 7201 s. Tebligat Kanunu mevzuatlarına tam uyum sağlamak.
+2. UBL-TR 1.2 XML fatura şemaları, e-Defter berat paketleri ve X.509 dijital sertifikalar hakkında hatasız teknik yönergeler sunmak.
+3. Asla spekülatif vergi ya da hukuk tavsiyesi vermemek; yasal saklama sürelerini (VUK 5 yıl, TTK 10 yıl) ve itiraz sürelerini (TTK 21/2 uyarınca 8 gün) her zaman hatırlatmak.
+4. Çıktılarını doğrudan uygulanabilir kodlar, XML parçaları veya resmi dilekçe taslakları şeklinde sunmak.
+\"\"\"
+"""
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(modelfile_content.strip() + "\n")
+    print(f"✅ Ollama Modelfile oluşturuldu: {output_path}")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="100 E-Dönüşüm Yapay Zeka Skili & Hazır Prompt Kütüphanesi CLI"
@@ -247,6 +305,8 @@ def main():
     parser.add_argument("--export-json", nargs="?", const="skills.json", help="Becerileri JSON olarak dışa aktarır")
     parser.add_argument("--export-claude", nargs="?", const="claude_skills.xml", help="Claude XML formatında dışa aktarır")
     parser.add_argument("--export-cursor", nargs="?", const=".cursorrules", help="Cursor .cursorrules formatında dışa aktarır")
+    parser.add_argument("--export-markdown", nargs="?", const="SKILLS_REFERENCE.md", help="Tüm becerileri Markdown referans dosyası olarak dışa aktarır")
+    parser.add_argument("--export-ollama", nargs="?", const="Modelfile", help="Ollama Modelfile formatında dışa aktarır")
 
     args = parser.parse_args()
 
@@ -268,6 +328,10 @@ def main():
         export_claude(args.export_claude)
     elif args.export_cursor:
         export_cursor(args.export_cursor)
+    elif args.export_markdown:
+        export_markdown(args.export_markdown)
+    elif args.export_ollama:
+        export_ollama(args.export_ollama)
     else:
         parser.print_help()
 

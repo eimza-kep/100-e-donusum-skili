@@ -77,6 +77,8 @@ python run_skill.py --run efatura-kdv-tevkifat-denetleyici --mock
 python run_skill.py --export-json     # skills.json üretir
 python run_skill.py --export-claude   # claude_skills.xml üretir
 python run_skill.py --export-cursor   # .cursorrules üretir
+python run_skill.py --export-markdown # SKILLS_REFERENCE.md üretir
+python run_skill.py --export-ollama   # Yerel LLM'ler için Modelfile üretir
 ```
 
 ---
