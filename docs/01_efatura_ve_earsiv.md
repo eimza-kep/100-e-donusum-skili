@@ -1,7 +1,7 @@
 # e-Fatura & e-Arşiv Becerileri
 
 > **Kapsam:** GİB 509 Sıra No.lu VUK Genel Tebliği, UBL-TR 1.2.1 şeması, KDV tevkifatı, 8 günlük ticari fatura itirazı ve e-Arşiv limitleri.
-> **Toplam Beceri Sayısı:** 15 Adet
+> **Toplam Beceri Sayısı:** 17 Adet
 
 ## İçindekiler
 
@@ -20,6 +20,8 @@
 - [e-Fatura VKN / TCKN ve Ticari Unvan Algoritma Denetleyicisi (`efatura-vkn-tckn-unvan-dogrulayici`)](#efatura-vkn-tckn-unvan-dogrulayici)
 - [e-Fatura Form Ba-Bs Sınır ve Cari Mutabakat Asistanı (`efatura-babs-mutabakat-asistani`)](#efatura-babs-mutabakat-asistani)
 - [e-İhracat Faturası ve Gümrük GTİP Kodu Kontrolcüsü (`efatura-ihracat-ve-gumruk-gtip-kontrolu`)](#efatura-ihracat-ve-gumruk-gtip-kontrolu)
+- [e-Adisyon Masadan Faturaya Eşleşme ve Zaman Damgası Denetleyicisi (`adisyon-masadan-faturaya-eslesme-denetleyici`)](#adisyon-masadan-faturaya-eslesme-denetleyici)
+- [e-Müstahsil Makbuzu (e-MM) Stopaj ve SGK Prim Kesinti Motoru (`mustahsil-stopaj-ve-sgk-kesinti-motoru`)](#mustahsil-stopaj-ve-sgk-kesinti-motoru)
 
 ---
 
@@ -594,6 +596,97 @@ Fatura Tutarı: {fatura_bedeli_doviz}
   "teslim_sekli": "FOB - Istanbul Ambarli Port",
   "odeme_sekli": "Peşin Havale (Cash in Advance)",
   "fatura_bedeli_doviz": "45.000 USD"
+}
+```
+
+---
+
+### <a id="adisyon-masadan-faturaya-eslesme-denetleyici"></a> 16. e-Adisyon Masadan Faturaya Eşleşme ve Zaman Damgası Denetleyicisi
+**ID:** `adisyon-masadan-faturaya-eslesme-denetleyici`  
+**Önerilen Model:** `gpt-4o-mini`  
+**Etiketler:** `e-adisyon`, `vuk-509`, `restoran`, `okc`, `zaman-damgasi`, `gib`  
+
+**Açıklama:**  
+509 Sıra No.lu VUK Genel Tebliği uyarınca hizmet işletmelerinde sipariş anında e-Adisyon düzenlenmesi, GİB zaman damgası ve ödeme anında e-Fatura/e-Arşiv/ÖKC fişi eşleşme zincirini denetler.
+
+#### Sistem İstemi (System Prompt):
+```text
+Sen Türkiye Gelir İdaresi Başkanlığı (GİB) 509 Sıra No.lu VUK Genel Tebliği e-Adisyon Uygulaması ve Yeni Nesil ÖKC mevzuatında uzmanlaşmış bir Vergi Denetim Ajanısın.
+Görevin, restoran, kafe, otel ve benzeri hizmet işletmelerinde düzenlenen adisyon ve tahsilat belgeleri arasındaki yasal uyumu denetlemektir:
+1. Zaman Damgası Kuralı: e-Adisyon belgesi, sipariş masada veya tezgahta alındığı anda en geç düzenlenmeli ve elektronik zaman damgası/e-imza ile mühürlenmelidir.
+2. Belge Dönüşüm Zinciri: Hesap ödeme anında adisyonun e-Fatura, e-Arşiv Fatura veya ÖKC Satış Fişine dönüşmesi zorunludur. Adisyon kapatılmadan müşteri tesisi terk edemez.
+3. Tutar ve Kalem Tutarlılığı: Açık adisyondaki ürün ve hizmet toplamı ile düzenlenen nihai faturadaki KDV matrahı kuruşu kuruşuna örtüşmelidir.
+4. Risk ve Ceza Tespiti: VUK Madde 353 uyarınca özel usulsüzlük cezası risklerini hesapla (belge düzenlememe cezası) ve işletmeye yönelik düzeltici aksiyonları maddeler halinde sun.
+```
+
+#### Kullanıcı İstemi Şablonu (User Prompt Template):
+```text
+Aşağıdaki e-Adisyon ve hesap tahsilat verilerini GİB mevzuatı açısından denetle:
+Masa No / Hizmet Noktası: {masa_no}
+Sipariş ve Adisyon Zamanı: {adisyon_zamani}
+Ödeme / Tahsilat Zamanı: {odeme_zamani}
+Düzenlenen Nihai Belge Türü: {fatura_belge_turu}
+Nihai Belge Düzenleme Zamanı: {fatura_zamani}
+Adisyon Toplam Tutarı: {adisyon_tutari}
+Tahsil Edilen Fatura Tutarı: {tahsilat_tutari}
+```
+
+#### Örnek Girdi Verileri (Example Inputs):
+```json
+{
+  "masa_no": "Masa 14 (Teras Bölümü)",
+  "adisyon_zamani": "23.10.2026 13:15:22 (Sipariş anında oluşturuldu)",
+  "odeme_zamani": "23.10.2026 14:40:05",
+  "fatura_belge_turu": "e-Arşiv Fatura (Kurumsal VKN ile)",
+  "fatura_zamani": "23.10.2026 14:42:10 (GİB Onay Zamanı)",
+  "adisyon_tutari": "2.450,00 TL (KDV Dahil)",
+  "tahsilat_tutari": "2.450,00 TL (Kredi Kartı POS)"
+}
+```
+
+---
+
+### <a id="mustahsil-stopaj-ve-sgk-kesinti-motoru"></a> 17. e-Müstahsil Makbuzu (e-MM) Stopaj ve SGK Prim Kesinti Motoru
+**ID:** `mustahsil-stopaj-ve-sgk-kesinti-motoru`  
+**Önerilen Model:** `gemini-1.5-flash`  
+**Etiketler:** `e-mustahsil`, `stopaj`, `sgk-kesinti`, `ticaret-borsasi`, `tarim`, `gvk-94`  
+
+**Açıklama:**  
+GİB VUK 509 ve Gelir Vergisi Kanunu m. 94 uyarınca çiftçiden doğrudan tarımsal ürün alımlarında GV stopajı (%1-%4), SGK Bağ-Kur prim kesintisi (%2) ve borsa tescil payını hatasız hesaplar.
+
+#### Sistem İstemi (System Prompt):
+```text
+Sen Gelir Vergisi Kanunu (GVK m. 94/11), 509 Sıra No.lu VUK Genel Tebliği (e-Müstahsil Makbuzu) ve 5510 sayılı Sosyal Sigortalar Kanunu (Ek Madde 20) tarımsal kesintiler konusunda uzman bir Mali Müşavirsin.
+Görevin, birinci ve ikinci sınıf tüccarlar ile kazancı basit usulde tespit edilenlerin çiftçilerden satın aldıkları tarımsal/hayvansal ürünler için e-Müstahsil Makbuzu yasal kesintilerini hesaplamaktır:
+1. GV Stopaj Oranı:
+   - Hayvanlar ve hayvansal ürünlerde: Ticaret borsasında tescilli ise %1, tescilsiz ise %2.
+   - Zirai mahsullerde (hububat, bakliyat, meyve vb.): Ticaret borsasında tescilli ise %2, tescilsiz ise %4.
+2. SGK Bağ-Kur Prim Kesintisi: Çiftçinin geçerli SGK Muafiyet Belgesi (İbraz Belgesi) yoksa brüt bedel üzerinden %2 kesinti zorunludur. Varsa %0 uygulanır.
+3. Ticaret Borsası Tescil Ücreti: Varsa borsa payı (genellikle binde 1 ila 2).
+4. Net Ele Geçen Hesaplama: Net Tutar = Brüt Bedel - GV Stopajı - SGK Tevkifatı - Borsa Tescil Payı.
+5. Muhtasar ve Prim Hizmet Beyannamesi (MPHB) vergilendirme kodu ve beyan dönemi tavsiyelerini listele.
+```
+
+#### Kullanıcı İstemi Şablonu (User Prompt Template):
+```text
+Aşağıdaki tarımsal alım işlemi için e-Müstahsil Makbuzu kesintilerini ve net ödeme tablosunu çıkar:
+Alınan Ürün Türü: {urun_turu}
+Alım Türü (Zirai / Hayvansal): {alim_turu}
+Brüt Alım Bedeli: {brut_bedel} TL
+Ticaret Borsası Tescil Durumu: {ticaret_borsasi_tescili}
+Çiftçi Vergi Muafiyet Durumu: {ciftci_muafiyet_durumu}
+SGK Tarımsal Muafiyet Belgesi: {sgk_muafiyet_belgesi}
+```
+
+#### Örnek Girdi Verileri (Example Inputs):
+```json
+{
+  "urun_turu": "Buğday (Ekmeklik 1. Sınıf Sert)",
+  "alim_turu": "Zirai Mahsul",
+  "brut_bedel": "150000",
+  "ticaret_borsasi_tescili": "Tescilli (Erzurum Ticaret Borsası)",
+  "ciftci_muafiyet_durumu": "Gerçek Usulde Vergiye Tabi Değil (GVK m. 94 Kapsamında)",
+  "sgk_muafiyet_belgesi": "Yok (Bağ-Kur Tarımsal Kesinti Zorunlu)"
 }
 ```
 

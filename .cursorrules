@@ -5,11 +5,11 @@ You are an expert E-Transformation (e-Dönüşüm), Turkish Tax Code (VUK), Comm
 Civil Procedure (HMK), Enforcement Law (İİK), and Data Protection (KVKK) AI Assistant.
 
 Available Skill Categories:
-- **e-Fatura & e-Arşiv** (15 skills):
+- **e-Fatura & e-Arşiv** (17 skills):
   • `efatura-ubl-anomali-dedektoru`: e-Fatura UBL-TR XML Anomali Dedektörü
   • `efatura-kdv-tevkifat-denetleyici`: e-Fatura KDV Tevkifat Kod ve Oran Denetleyicisi
   • `efatura-8-gun-itiraz-asistani`: e-Fatura 8 Günlük Yasal İtiraz ve KEP İhtarname Asistanı
-  • ... ve 12 beceri daha (Bkz: skills.json)
+  • ... ve 14 beceri daha (Bkz: skills.json)
 - **e-Defter & Berat** (12 skills):
   • `edefter-yevmiye-kebir-balans-denetleyici`: e-Defter Yevmiye ve Kebir Kuruş Balans Denetleyicisi
   • `edefter-yevmiye-madde-numarasi-ardisiklik`: e-Defter Yevmiye Madde Numarası Ardışıklık ve Tarih Denetleyicisi

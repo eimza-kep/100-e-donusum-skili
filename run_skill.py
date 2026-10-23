@@ -290,10 +290,45 @@ Görevlerin:
     print(f"✅ Ollama Modelfile oluşturuldu: {output_path}")
 
 
+def launch_web_playground(port=8080):
+    import webbrowser
+    import threading
+    from http.server import SimpleHTTPRequestHandler
+    import socketserver
+
+    root_dir = os.path.dirname(os.path.abspath(__file__))
+    class Handler(SimpleHTTPRequestHandler):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, directory=root_dir, **kwargs)
+        def log_message(self, format, *args):
+            pass
+
+    print_header()
+    print(f"\n🌐 E-Dönüşüm Prompt Playground Başlatılıyor...")
+    print(f"📍 Adres: http://localhost:{port}/index.html")
+    print("🚀 Tarayıcınızda açılıyor (Durdurmak için Ctrl+C)...")
+    
+    def open_browser():
+        import time
+        time.sleep(0.5)
+        webbrowser.open(f"http://localhost:{port}/index.html")
+
+    threading.Thread(target=open_browser, daemon=True).start()
+
+    try:
+        with socketserver.TCPServer(("", port), Handler) as httpd:
+            httpd.serve_forever()
+    except KeyboardInterrupt:
+        print("\n👋 Sunucu kapatıldı.")
+    except Exception as e:
+        print(f"❌ Sunucu hatası: {e}")
+
+
 def main():
     parser = argparse.ArgumentParser(
         description="100 E-Dönüşüm Yapay Zeka Skili & Hazır Prompt Kütüphanesi CLI"
     )
+    parser.add_argument("--web", action="store_true", help="Web Playground arayüzünü yerel sunucuda başlatır ve tarayıcıda açar")
     parser.add_argument("--list", action="store_true", help="Tüm becerileri listeler")
     parser.add_argument("--categories", action="store_true", help="Tüm kategorileri ve beceri sayılarını listeler")
     parser.add_argument("--category", type=str, help="Belirli bir kategorideki becerileri filtreler")
@@ -310,7 +345,9 @@ def main():
 
     args = parser.parse_args()
 
-    if args.categories:
+    if args.web:
+        launch_web_playground()
+    elif args.categories:
         list_categories()
     elif args.list:
         list_skills(args.category)

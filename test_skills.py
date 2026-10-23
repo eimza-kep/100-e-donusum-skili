@@ -12,8 +12,20 @@ from skills import ALL_SKILLS, SKILLS_BY_ID, SKILLS_BY_CATEGORY
 class TestEDonusumSkills(unittest.TestCase):
 
     def test_total_skill_count(self):
-        """Toplam tam 100 beceri olduğunu doğrula."""
-        self.assertEqual(len(ALL_SKILLS), 100, f"Beklenen: 100 beceri, Bulunan: {len(ALL_SKILLS)}")
+        """Toplam en az 100 (v1.1 ile 102 beceri) olduğunu doğrula."""
+        self.assertGreaterEqual(len(ALL_SKILLS), 100, f"Beklenen: >= 100 beceri, Bulunan: {len(ALL_SKILLS)}")
+        self.assertEqual(len(ALL_SKILLS), 102, f"v1.1 Beklenen: 102 beceri, Bulunan: {len(ALL_SKILLS)}")
+
+    def test_v11_new_skills(self):
+        """v1.1 ile eklenen e-Adisyon ve e-Müstahsil Makbuzu becerilerini doğrula."""
+        self.assertIn("adisyon-masadan-faturaya-eslesme-denetleyici", SKILLS_BY_ID)
+        self.assertIn("mustahsil-stopaj-ve-sgk-kesinti-motoru", SKILLS_BY_ID)
+        
+        adisyon = SKILLS_BY_ID["adisyon-masadan-faturaya-eslesme-denetleyici"]
+        self.assertIn("e-adisyon", adisyon["tags"])
+        
+        mustahsil = SKILLS_BY_ID["mustahsil-stopaj-ve-sgk-kesinti-motoru"]
+        self.assertIn("e-mustahsil", mustahsil["tags"])
 
     def test_category_count(self):
         """8 ana kategori olduğunu doğrula."""

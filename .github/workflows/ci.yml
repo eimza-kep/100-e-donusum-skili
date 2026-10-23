@@ -29,8 +29,11 @@ jobs:
       run: |
         python run_skill.py --categories
         python run_skill.py --list
-        python run_skill.py --search tevkifat
+        python run_skill.py --search adisyon
         python run_skill.py --run efatura-kdv-tevkifat-denetleyici --mock
+        python run_skill.py --run adisyon-masadan-faturaya-eslesme-denetleyici --mock
+        python run_skill.py --run mustahsil-stopaj-ve-sgk-kesinti-motoru --mock
         python run_skill.py --export-json
         python run_skill.py --export-claude
         python run_skill.py --export-cursor
+        python build_web.py
