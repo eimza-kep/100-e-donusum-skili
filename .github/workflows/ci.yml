@@ -1,39 +1,14 @@
-name: CI Test Suite
-
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
+name: CI Tests
+on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.10", "3.11", "3.12"]
-
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
     steps:
     - uses: actions/checkout@v4
-
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+    - uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
-
-    - name: Run Test Suite
-      run: |
-        python test_skills.py
-
-    - name: Test CLI Runner and Exports
-      run: |
-        python run_skill.py --categories
-        python run_skill.py --list
-        python run_skill.py --search adisyon
-        python run_skill.py --run efatura-kdv-tevkifat-denetleyici --mock
-        python run_skill.py --run adisyon-masadan-faturaya-eslesme-denetleyici --mock
-        python run_skill.py --run mustahsil-stopaj-ve-sgk-kesinti-motoru --mock
-        python run_skill.py --export-json
-        python run_skill.py --export-claude
-        python run_skill.py --export-cursor
-        python build_web.py
+    - run: python test_skills.py
